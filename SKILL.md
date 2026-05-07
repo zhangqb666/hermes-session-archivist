@@ -185,6 +185,14 @@ session_archivist:
 
 5. **裁剪后 session 无法恢复** — 原始 session 备份在 `~/.hermes/session-archives/backups/`，保留 7 天。
 
+6. **批量执行 300 秒超时** — `session_archiver.py` 按顺序处理每个 session，40+ 个大会话必然超时。解决方案：连续执行多次，每次运行会重新扫描未归档的 session。实测 3 次清完 43 个（14 → 26 → 3）。
+
+7. **活跃 session 被跳过** — 最近 5 分钟有修改的 session 会跳过（"session is active"）。这是安全机制，不是 bug。凌晨 cron 自然避开了这个问题。
+
+8. **Hindsight 超时不阻塞** — Hindsight 连接超时时日志显示 "Hindsight failed: timed out"，但归档和裁剪仍然完成。非阻塞。
+
+9. **高重要性 session 裁剪效果差** — 如果大部分消息都是高分（包含决策/代码/错误修复），裁剪效果有限。实测 1329KB → 1116KB，几乎没减少。这种情况属于"内容确实重要"，不是 bug。
+
 ## Verification Checklist
 
 - [ ] `session_archiver.py --dry-run` 能正确检测大 session
