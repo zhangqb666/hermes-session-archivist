@@ -695,10 +695,9 @@ class SessionArchiver:
 
     def _detect_project(self, title: str, session_id: str) -> str:
         """从标题检测项目名"""
-        # 常见项目名模式
+        # 常见项目名模式 — 根据你的项目自行修改
         patterns = [
-            r'finnews', r'quickread', r'SkillClaw', r'hermes',
-            r'AI赚钱', r'多智能体', r'芯片', r'量化',
+            r'project', r'backend', r'frontend', r'hermes',
         ]
         title_lower = title.lower()
         for p in patterns:

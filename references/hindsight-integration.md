@@ -22,8 +22,8 @@ session_archivist:
 ## Bank 命名规则
 
 Session Archivist 自动按项目名创建 bank：
-- 标题包含 "finnews" → bank: "finnews"
-- 标题包含 "AI赚钱" → bank: "AI赚钱"
+- 标题包含 "project-a" → bank: "project-a"
+- 标题包含 "project-b" → bank: "project-b"
 - 无法识别 → 使用 session ID 前缀（如 "20260507"）
 
 ## Memory 元数据
@@ -39,7 +39,7 @@ Session Archivist 自动按项目名创建 bank：
     "original_size": 884,
     "high_importance_count": 45
   },
-  "tags": ["session-archive", "finnews"]
+  "tags": ["session-archive", "project-a"]
 }
 ```
 

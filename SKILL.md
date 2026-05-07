@@ -2,7 +2,7 @@
 name: session-archivist
 description: "Use when session files grow too large (>1MB), context compression fails to trigger, or you need to manage long-running session lifecycle. Auto-archives old sessions, scores message importance, flushes memory before compression, and keeps session files small."
 version: 1.0.0
-author: zhang
+author: zhangqb666
 license: MIT
 metadata:
   hermes:
