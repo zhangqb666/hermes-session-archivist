@@ -17,7 +17,8 @@ metadata:
 Session Archivist 解决 Hermes Agent 的已知问题：session 文件无限增长导致 Web UI 卡死、上下文压缩失效、API 配额耗尽。
 
 核心能力：
-1. **事件驱动触发** — 消息数 >20 或文件 >2MB 自动触发，不依赖定时任务
+0. **自动清理过期 session** — 超过 retention_days（默认 5 天）未更新的 session 自动删除，删除前备份
+1. **事件驱动触发** — 消息数 >20 或文件 >2MB 自动触发，不依赖 cron
 2. **优先级队列** — P0-P3 优先级排序，空闲 session 先处理
 3. **状态感知** — 4 层安全检查：压缩中/文件锁/agent 运行/gateway 繁忙
 4. **大消息无损提取** — tool 输出 >100KB 和 assistant 回复 >50KB 提取到独立文件，不截断
@@ -66,6 +67,7 @@ session_archivist:
   importance_threshold: 0.5        # 重要性评分阈值（0-1）
   archive_dir: ~/.hermes/session-archives
   hindsight_enabled: auto          # auto/true/false
+  retention_days: 5                # session 自动删除天数（超过此天数未更新的 session 会被删除，删除前备份）
   cron_schedule: "0 3 * * *"      # 每天凌晨3点执行（兜底，主要靠事件驱动）
 ```
 
@@ -254,6 +256,7 @@ Full content preserved in separate files. Session file shrinks, no data lost.
 ## Verification Checklist
 
 - [ ] `session_archiver.py --dry-run` 能正确检测大 session
+- [ ] `session_archiver.py --check --retention-days 5 --dry-run` 能正确检测过期 session
 - [ ] 归档 markdown 文件包含完整结构化摘要
 - [ ] 裁剪后 session 文件 < target_session_size_kb
 - [ ] Hindsight 可用时自动存入（检查 bank）
