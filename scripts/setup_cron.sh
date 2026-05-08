@@ -40,10 +40,10 @@ cat > "$CLEANUP_SCRIPT" << 'SCRIPT_EOF'
 ARCHIVER="${HERMES_HOME:-$HOME/.hermes}/skills/productivity/session-archivist/scripts/session_archiver.py"
 
 # 事件驱动检查（检测大 session）
-python3 "$ARCHIVER" --check 2>&1
+python3 "$ARCHIVER" --check --retention-days 5 2>&1
 
 # 兜底：cron 模式处理遗留的大 session
-python3 "$ARCHIVER" 2>&1
+python3 "$ARCHIVER" --retention-days 5 2>&1
 
 # 清理30天前的session
 hermes sessions prune --older-than 30 2>&1
